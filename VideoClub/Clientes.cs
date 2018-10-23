@@ -8,24 +8,10 @@ using System.Data.SqlClient;
 
 namespace VideoClub
 {
-    class Program
+    class Clientes
     {
         SqlConnection conexion = Conexion.GetConnection();
         static string cadena;
         static SqlCommand comando;
-
-        static void Main(string[] args)
-        {
-            Menu menu = new Menu();
-            menu.Bienvenida();
-            menu.MenuOption();
-
-
-
-
-
-
-            Console.ReadLine();
-        }
     }
 }
