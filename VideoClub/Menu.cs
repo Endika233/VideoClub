@@ -56,7 +56,7 @@ namespace VideoClub
         public void RegistrarUsuario()
         {
             String nombre = null,nickUser=null,email=null;//Al usar nombre como una clase me deja asignarle valor nulo
-            int añoNacimiento, mesNacimiento, diaNacimiento;//TODO:Con int usar Integer o Int para poder asignarle valor nulo
+            int añoNacimiento, mesNacimiento, diaNacimiento;//TODO:Con int usar Integer o Int para poder asignarle valor nuloo
             Console.WriteLine("\n\tHa elegido la opción Registrar usuario\n----------------------------\n\tIntroduzca su nombre");
             do
             {
