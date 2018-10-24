@@ -11,8 +11,11 @@ namespace VideoClub
     class Menu
     {
         SqlConnection conexion = Conexion.GetConnection();
+        SqlDataReader match;
         static string cadena;
         static SqlCommand comando;
+        private string nombre, nickUser, email;
+        private DateTime fechaNacimiento;
         public Menu()
         {
             
@@ -23,6 +26,7 @@ namespace VideoClub
         }
         public void MenuOption()
         {
+
             int eleccionPrimera;
             do
             {
@@ -35,6 +39,7 @@ namespace VideoClub
                 {
                     eleccionPrimera = -1;//Hay que darle un valor por si el try no le asignara
                     Console.WriteLine("   Por favor, introduzca un valor válido\n-----------------------");
+                    MenuOption();
                 }
             } while (eleccionPrimera < 0 && eleccionPrimera > 4);
             switch (eleccionPrimera)
@@ -55,22 +60,17 @@ namespace VideoClub
         }
         public void RegistrarUsuario()
         {
-            String nombre = null,nickUser=null,email=null;//Al usar nombre como una clase me deja asignarle valor nulo
-            int añoNacimiento, mesNacimiento, diaNacimiento;//TODO:Con int usar Integer o Int para poder asignarle valor nulo o asignar dia 0
-            Console.WriteLine("\n\tHa elegido la opción Registrar usuario\n----------------------------\n\tIntroduzca su nombre");
-            do
-            {
-                try
-                {
-                    nombre = Console.ReadLine();
-                }
-                catch
-                {
-                    Console.WriteLine("\n\tPor favor, introduzca un nombre válido");//TODO:Los mensajes de error de formato porque el usuario meta algo erroneo tal vez ponerle otro color
-                }
-            } while (nombre == null);
-            Console.WriteLine("\n\tIntroduzca el apodo que quiera utilizar");//TODO:Revisar si apodo existe
+            Clientes c1 = new Clientes();
+            Console.WriteLine("\n\tHa elegido la opción Registrar usuario\n----------------------------\n\tIntroduzca el apodo que desee utilizar");
+            nickUser=c1.ComprobarNickExiste();
+            Console.WriteLine("\n\tIntroduzca su nombre");
+            nombre = c1.RegistroNombre();
+            Console.WriteLine("\n\tIntroduzca el email que desee utilizar (puede usar el mismo para varios usuarios)");
+            email = c1.RegistroEmail();
+            fechaNacimiento = c1.GetFechaNacimiento();
 
+
+            
         }
         public void LogIn()
         {

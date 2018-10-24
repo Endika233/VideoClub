@@ -16,6 +16,7 @@ namespace VideoClub
 
         static void Main(string[] args)
         {
+
             Menu menu = new Menu();
             menu.Bienvenida();
             menu.MenuOption();
