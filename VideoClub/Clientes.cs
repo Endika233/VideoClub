@@ -14,11 +14,28 @@ namespace VideoClub
         static string cadena;
         static SqlCommand comando;
         static SqlDataReader match;
-        static String nickUser = null,nombre=null,email=null;
-        static int añoNacimiento, mesNacimiento, diaNacimiento;//Porque dice que no se usa
-        static DateTime fechaNacimiento;
+        private String nickUser = null,nombre=null,email=null;
+        private int añoNacimiento, mesNacimiento, diaNacimiento;//Porque dice que no se usa
+        private DateTime fechaNacimiento;
 
+        public Clientes()
+        {
 
+        }
+        public Clientes(string nickUser,string email,string nombre,DateTime fechaNacimiento)
+        {
+            this.nickUser = nickUser;
+            this.email = email;
+            this.nombre = nombre;
+            this.fechaNacimiento = fechaNacimiento;
+        }
+        public void AñadirBBDD()
+        {
+            conexion.Open();
+            cadena = " INSERT INTO CLIENTES VALUES ('" + nickUser + "','" + email + "','" + nombre + "','" + fechaNacimiento.ToString() + "')";
+            comando = new SqlCommand(cadena, conexion);
+            comando.ExecuteNonQuery();
+        }
         public string ComprobarNickExiste()
         {
             do
@@ -35,7 +52,7 @@ namespace VideoClub
                 cadena = "SELECT * FROM CLIENTES WHERE NICKUSER LIKE '" + nickUser + "'";
                 comando = new SqlCommand(cadena, conexion);
                 match = comando.ExecuteReader();
-                if (match.Read())
+                if (match.Read())//He puesto la variable read para meterla aqui
                 {
                     Console.WriteLine("\n\tYa existe un usuario registrado con ese nombre, escoja otro por favor");
                     nickUser = null;
@@ -75,7 +92,7 @@ namespace VideoClub
                 try
                 {
                     email = Console.ReadLine();//TODO:Poner una salida a todos los bucles
-                    if (!email.Contains("@")||!email.Contains("."))//TODO: mirar algun caso mas para frenar el registro de email
+                    if (!email.Contains("@")||!email.Contains("."))//TODO: bucar el metodo en with para que solo coja los que acaben en .com... mirar algun caso mas para frenar el registro de email
                     {
                         email = null;
                         Console.WriteLine("\n\tPor favor, introduzca un email válido");

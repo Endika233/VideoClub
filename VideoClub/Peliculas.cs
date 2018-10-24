@@ -13,5 +13,5 @@ namespace VideoClub
         SqlConnection conexion = Conexion.GetConnection();
         static string cadena;
         static SqlCommand comando;
-    }
+    }//dentro de un for que tenga como limite la cuenta de las 
 }

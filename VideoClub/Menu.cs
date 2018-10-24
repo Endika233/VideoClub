@@ -68,9 +68,9 @@ namespace VideoClub
             Console.WriteLine("\n\tIntroduzca el email que desee utilizar (puede usar el mismo para varios usuarios)");
             email = c1.RegistroEmail();
             fechaNacimiento = c1.GetFechaNacimiento();
-
-
-            
+            c1 = new Clientes(nickUser, email, nombre, fechaNacimiento);
+            c1.AñadirBBDD();
+            MenuOption();
         }
         public void LogIn()
         {
