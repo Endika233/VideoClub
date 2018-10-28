@@ -74,6 +74,10 @@ namespace VideoClub
             do
             {
                 nickUser = Console.ReadLine();
+                if (nickUser.ToUpper() == "MENU")
+                {
+                    return false;
+                }
                 conexion.Open();
                 cadena = "SELECT * FROM CLIENTES WHERE NICKUSER LIKE '" + nickUser + "'";
                 comando = new SqlCommand(cadena, conexion);
@@ -85,6 +89,10 @@ namespace VideoClub
                     do
                     {
                         password = Console.ReadLine();
+                        if (password.ToUpper() == "MENU")
+                        {
+                            return false;
+                        }
                         cadena = "SELECT * FROM CLIENTES WHERE NICKUSER LIKE '" + nickUser + "' AND PASS='" + password + "'";
                         comando = new SqlCommand(cadena, conexion);
                         match = comando.ExecuteReader();
@@ -92,13 +100,13 @@ namespace VideoClub
                         {
                             Console.WriteLine("\n\tLa contraseña introducida es correcta\n");
                             match.Close();//Coger la fecha y guardarla en int edad
-                            cadena = "  SELECT DATEDIFF (year,FechaNacimiento,GETDATE()) FROM Clientes where NickUser like '"+nickUser+"'";
+                            cadena = "  SELECT DATEDIFF (year,FechaNacimiento,GETDATE()) AS DIF FROM Clientes where NickUser like '"+nickUser+"'";
                             comando= new SqlCommand(cadena, conexion);
                             SqlDataReader edadRead = comando.ExecuteReader();
                             edad = Int32.Parse(edadRead[0].ToString());
                             return true;
                         }
-                        else if(!match.Read()&& password.ToUpper() != "MENU")
+                        else if(!match.Read())
                         {
                             Console.WriteLine("\n\tLa contraseña introducida no es correcta, si desea volver al menú principal introduzca menú");
                         }
@@ -106,14 +114,14 @@ namespace VideoClub
                     } while (password.ToUpper() != "MENU");
 
                 }
-                else if (!match.Read()&&nickUser.ToUpper()!="MENU" && password.ToUpper() != "MENU")
+                else if (!match.Read())
                 {
                     Console.WriteLine("\n\tDebe introducir un usuario registrado anteriormente, si desea volver al menú principal escriba menu");
                     nickUser = null;
                 }
                 match.Close();
                 conexion.Close();
-            } while (nickUser == null || nickUser == ""||nickUser.ToUpper()!="MENU"|| password.ToUpper() != "MENU");
+            } while (nickUser == null || nickUser == "");
             return false;
         }
         public string RegistroNombre()
