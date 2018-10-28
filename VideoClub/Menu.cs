@@ -14,8 +14,9 @@ namespace VideoClub
         SqlDataReader match;
         static string cadena;
         static SqlCommand comando;
-        private string nombre, nickUser, email;
+        private string nombre, nickUser, email,password;
         private DateTime fechaNacimiento;
+        private bool loged;
         public Menu()
         {
             
@@ -51,6 +52,7 @@ namespace VideoClub
                     RegistrarUsuario();
                     break;
                 case 2:
+                    LogIn();
                     break;
                 case 3:
                     break;
@@ -68,17 +70,30 @@ namespace VideoClub
             Console.WriteLine("\n\tIntroduzca el email que desee utilizar (puede usar el mismo para varios usuarios)");
             email = c1.RegistroEmail();
             fechaNacimiento = c1.GetFechaNacimiento();
-            c1 = new Clientes(nickUser, email, nombre, fechaNacimiento);
+            Console.WriteLine("\n\tIntroduzca la contraseña que quiera utilizar");
+            password = c1.RegistroPassword();
+            c1 = new Clientes(nickUser, email, nombre, fechaNacimiento,password);
             c1.AñadirBBDD();
             MenuOption();
         }
         public void LogIn()
         {
-
+            Clientes c1 = new Clientes();
+            Console.WriteLine("\n\tHa elegido la opción LogIn\n----------------------------\n\tIntroduzca el nombre de usuario");//TODO:poner que tambien puedan loguearse con el email
+            loged=c1.Loguearse();
+            if (loged == true)
+            {
+                //TODO:Ir a ver peliculas
+            }
+            else
+            {
+                MenuOption();
+            }
         }
         public void LogOut()
         {
-
+            loged = false;
+            MenuOption();
         }
         public void VerPeliculas()//Enseñar peliculas dependiendo de la edad incluso si estan alquiladas
         {
