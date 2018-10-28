@@ -15,7 +15,7 @@ namespace VideoClub
         static SqlCommand comando;
         static SqlDataReader match;
         private String nickUser = null,nombre=null,email=null,password=null;
-        private int añoNacimiento, mesNacimiento, diaNacimiento;
+        private int añoNacimiento, mesNacimiento, diaNacimiento,edad=18;//La edad solo se cambiara una vez se logueen
         private DateTime fechaNacimiento;
 
         public Clientes()
@@ -81,31 +81,39 @@ namespace VideoClub
                 if (match.Read())
                 {
                     match.Close();
+                        Console.WriteLine("\n\tUsuario válido, introduzca su contraseña");
                     do
                     {
-                        Console.WriteLine("\n\tUsuario válido, introduzca su contraseña");
                         password = Console.ReadLine();
                         cadena = "SELECT * FROM CLIENTES WHERE NICKUSER LIKE '" + nickUser + "' AND PASS='" + password + "'";
                         comando = new SqlCommand(cadena, conexion);
                         match = comando.ExecuteReader();
                         if (match.Read())
                         {
-                            Console.WriteLine("\n\tLa contraseña introducida es correcta");
-                            match.Close();
+                            Console.WriteLine("\n\tLa contraseña introducida es correcta\n");
+                            match.Close();//Coger la fecha y guardarla en int edad
+                            cadena = "  SELECT DATEDIFF (year,FechaNacimiento,GETDATE()) FROM Clientes where NickUser like '"+nickUser+"'";
+                            comando= new SqlCommand(cadena, conexion);
+                            SqlDataReader edadRead = comando.ExecuteReader();
+                            edad = Int32.Parse(edadRead[0].ToString());
                             return true;
+                        }
+                        else if(!match.Read()&& password.ToUpper() != "MENU")
+                        {
+                            Console.WriteLine("\n\tLa contraseña introducida no es correcta, si desea volver al menú principal introduzca menú");
                         }
                         match.Close();
                     } while (password.ToUpper() != "MENU");
 
                 }
-                else if (!match.Read()&&nickUser.ToUpper()!="MENU")
+                else if (!match.Read()&&nickUser.ToUpper()!="MENU" && password.ToUpper() != "MENU")
                 {
                     Console.WriteLine("\n\tDebe introducir un usuario registrado anteriormente, si desea volver al menú principal escriba menu");
                     nickUser = null;
                 }
                 match.Close();
                 conexion.Close();
-            } while (nickUser == null || nickUser == ""||nickUser.ToUpper()!="MENU");
+            } while (nickUser == null || nickUser == ""||nickUser.ToUpper()!="MENU"|| password.ToUpper() != "MENU");
             return false;
         }
         public string RegistroNombre()

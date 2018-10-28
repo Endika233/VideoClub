@@ -28,22 +28,21 @@ namespace VideoClub
         public void MenuOption()
         {
 
-            int eleccionPrimera;
+            int eleccion;
             do
             {
-                Console.WriteLine("\tElija una de las siguientes acciones:\n\t1.Registrar Usuario\n\t2.LogIn\n\t3.Consultar Películas\n\t0.Salir");
+                Console.WriteLine("\tElija una de las siguientes acciones:\n\t1.Registrar Usuario\n\t2.LogIn\n\t3.Consultar Películas(solo apareceran las recomendadas para menores de 18 años)\n\t0.Salir");
                 try
                 {
-                    eleccionPrimera = Int32.Parse(Console.ReadLine());
+                    eleccion = Int32.Parse(Console.ReadLine());
                 }
-                catch//TODO:Si aqui no se pone que excepcion es funciona? Creo que si
+                catch
                 {
-                    eleccionPrimera = -1;//Hay que darle un valor por si el try no le asignara
+                    eleccion = -1;
                     Console.WriteLine("   Por favor, introduzca un valor válido\n-----------------------");
-                    MenuOption();
                 }
-            } while (eleccionPrimera < 0 && eleccionPrimera > 4);
-            switch (eleccionPrimera)
+            } while (eleccion < 0 || eleccion > 3);
+            switch (eleccion)
             {
                 case 0:
                     Salir();
@@ -55,8 +54,6 @@ namespace VideoClub
                     LogIn();
                     break;
                 case 3:
-                    break;
-                case 4:
                     break;
             }
         }
@@ -78,20 +75,53 @@ namespace VideoClub
         }
         public void LogIn()
         {
-            Clientes c1 = new Clientes();
+            Clientes c1 = new Clientes();//Para resetear el cliente c1 si entraran despues de registrar cliente
             Console.WriteLine("\n\tHa elegido la opción LogIn\n----------------------------\n\tIntroduzca el nombre de usuario");//TODO:poner que tambien puedan loguearse con el email
             loged=c1.Loguearse();
             if (loged == true)
             {
-                //TODO:Ir a ver peliculas
+                MenuLogin();
             }
             else
             {
                 MenuOption();
             }
         }
+        public void MenuLogin()
+        {
+            int eleccion;
+            do
+            {
+                Console.WriteLine("\tElija una de las siguientes acciones:\n\t1.Ver Películas(solo aparecerán aquellas adecuadas para su edad)\n\t2.Alquilar Películas\n\t3.Mis Alquileres\n\t4.LogOut y salir del programa");
+                try
+                {
+                    eleccion = Int32.Parse(Console.ReadLine());
+                }
+                catch
+                {
+                    eleccion = -1;
+                    Console.WriteLine("   Por favor, introduzca un valor válido\n-----------------------");
+                }
+            } while (eleccion < 1 || eleccion > 4);
+            switch (eleccion)
+            {
+                case 1:
+                    VerPeliculas();
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    LogOut();
+                    break;
+                case 4:
+                    loged = false;//No es necesario porque se cierra el programa y resetean los valores pero si el día de mañana este programa se acoplara a otro y en realidad nunca dejara de ejecutarse habria que hacerlo
+                    Salir();
+                    break;
+            }
+        }
         public void LogOut()
         {
+            Clientes c1 = new Clientes();//Así reseteo la edad de la clase clientes a 18
             loged = false;
             MenuOption();
         }
