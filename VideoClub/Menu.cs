@@ -61,7 +61,6 @@ namespace VideoClub
         public void RegistrarUsuario()
         {
             Clientes c1 = new Clientes();
-            edad = c1.GetEdad();
             Console.WriteLine("\n\tHa elegido la opción Registrar usuario\n----------------------------\n\tIntroduzca el apodo que desee utilizar");
             nickUser=c1.ComprobarNickExiste();
             Console.WriteLine("\n\tIntroduzca su nombre");
@@ -123,8 +122,6 @@ namespace VideoClub
         }
         public void LogOut()
         {
-            Clientes c1 = new Clientes();//Así reseteo la edad de la clase clientes a 18
-            loged = false;
             MenuOption();
         }
         public void VerPeliculas()//Enseñar peliculas dependiendo de la edad incluso si estan alquiladas

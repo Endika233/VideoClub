@@ -103,7 +103,7 @@ namespace VideoClub
                         if (match.Read())
                         {
                             Console.WriteLine("\n\tLa contraseña introducida es correcta\n");
-                            match.Close();//Coger la fecha y guardarla en int edad
+                            match.Close();
                             cadena = "  SELECT DATEDIFF (year,FechaNacimiento,GETDATE()) AS DIF FROM Clientes where NickUser like '"+nickUser+"'";
                             comando= new SqlCommand(cadena, conexion);
                             SqlDataReader edadRead = comando.ExecuteReader();
