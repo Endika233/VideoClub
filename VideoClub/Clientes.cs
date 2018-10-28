@@ -15,9 +15,9 @@ namespace VideoClub
         static SqlCommand comando;
         static SqlDataReader match;
         private String nickUser = null,nombre=null,email=null,password=null;
-        private int añoNacimiento, mesNacimiento, diaNacimiento,edad=18;//La edad solo se cambiara una vez se logueen
+        private int añoNacimiento, mesNacimiento, diaNacimiento,edad=0;//La edad solo se cambiara una vez se logueen
         private DateTime fechaNacimiento;
-
+        //TODO:meter la fecha de registro
         public Clientes()
         {
 
@@ -69,6 +69,10 @@ namespace VideoClub
             } while (nickUser == null||nickUser=="");//TODO: en nick email y demas si no meten ningun dado en la respuesta guarda"" no null
             return nickUser;
         }
+        public int GetEdad()
+        {
+            return edad;
+        }
         public bool Loguearse()
         {
             do
@@ -103,6 +107,7 @@ namespace VideoClub
                             cadena = "  SELECT DATEDIFF (year,FechaNacimiento,GETDATE()) AS DIF FROM Clientes where NickUser like '"+nickUser+"'";
                             comando= new SqlCommand(cadena, conexion);
                             SqlDataReader edadRead = comando.ExecuteReader();
+                            edadRead.Read();
                             edad = Int32.Parse(edadRead[0].ToString());
                             return true;
                         }
@@ -111,8 +116,7 @@ namespace VideoClub
                             Console.WriteLine("\n\tLa contraseña introducida no es correcta, si desea volver al menú principal introduzca menú");
                         }
                         match.Close();
-                    } while (password.ToUpper() != "MENU");
-
+                    } while (true);
                 }
                 else if (!match.Read())
                 {

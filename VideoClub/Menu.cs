@@ -15,6 +15,7 @@ namespace VideoClub
         static string cadena;
         static SqlCommand comando;
         private string nombre, nickUser, email,password;
+        private int edad;
         private DateTime fechaNacimiento;
         private bool loged;
         public Menu()
@@ -60,6 +61,7 @@ namespace VideoClub
         public void RegistrarUsuario()
         {
             Clientes c1 = new Clientes();
+            edad = c1.GetEdad();
             Console.WriteLine("\n\tHa elegido la opción Registrar usuario\n----------------------------\n\tIntroduzca el apodo que desee utilizar");
             nickUser=c1.ComprobarNickExiste();
             Console.WriteLine("\n\tIntroduzca su nombre");
@@ -127,7 +129,8 @@ namespace VideoClub
         }
         public void VerPeliculas()//Enseñar peliculas dependiendo de la edad incluso si estan alquiladas
         {
-
+            Peliculas peliculas = new Peliculas();
+            
         }
         public void AlquilarPelicula()
         {

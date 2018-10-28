@@ -13,5 +13,20 @@ namespace VideoClub
         SqlConnection conexion = Conexion.GetConnection();
         static string cadena;
         static SqlCommand comando;
-    }//dentro de un for que tenga como limite la cuenta de las 
+        private int edad;
+
+        public Peliculas()
+        {
+
+        }
+        public Peliculas(int edad)
+        {
+            this.edad = edad;
+        }
+        public void MostrarPeliculas(int edad)
+        {
+            
+        }
+    }
+
 }
