@@ -67,7 +67,7 @@ namespace VideoClub
                 }
                 match.Close();
                 conexion.Close();
-            } while (nickUser == null||nickUser=="");//TODO: en nick email y demas si no meten ningun dado en la respuesta guarda"" no null
+            } while (nickUser == null||nickUser=="");
             return nickUser;
         }
         public Clientes Loguearse()
@@ -140,7 +140,7 @@ namespace VideoClub
                 }
                 catch
                 {
-                    Console.WriteLine("\n\tPor favor, introduzca un nombre válido");//TODO:Los mensajes de error de formato porque el usuario meta algo erroneo tal vez ponerle otro color
+                    Console.WriteLine("\n\tPor favor, introduzca un nombre válido");
                 }
                 if (nombre == "")
                 {
@@ -155,7 +155,7 @@ namespace VideoClub
             {
                 try
                 {
-                    email = Console.ReadLine();//TODO:Poner una salida a todos los bucles
+                    email = Console.ReadLine();
                     if (!email.Contains("@")||!email.Contains("."))//TODO: bucar el metodo en with para que solo coja los que acaben en .com... mirar algun caso mas para frenar el registro de email
                     {
                         email = null;
@@ -164,7 +164,7 @@ namespace VideoClub
                 }
                 catch
                 {
-                    Console.WriteLine("\n\tPor favor, introduzca un email válido");//TODO:Los mensajes de error de formato porque el usuario meta algo erroneo tal vez ponerle otro color
+                    Console.WriteLine("\n\tPor favor, introduzca un email válido");
                 }
                 if (email == "")
                 {
@@ -182,8 +182,7 @@ namespace VideoClub
                 if (añoNacimiento < 1900|| añoNacimiento>DateTime.Today.Year)
                 {
                     Console.WriteLine("\n\tIntroduce tu año de nacimiento real\n*************************");
-                    RegistroAñoNacimiento(); // TODO: hacer con bucle
-                    //TODO:poner break al final de los bucles para que se los salte
+                    RegistroAñoNacimiento();
                 }
             }
             catch
@@ -254,7 +253,7 @@ namespace VideoClub
                 }
                 catch
                 {
-                    Console.WriteLine("\n\tPor favor, introduzca una contraseña válida");//TODO:Los mensajes de error de formato porque el usuario meta algo erroneo tal vez ponerle otro color
+                    Console.WriteLine("\n\tPor favor, introduzca una contraseña válida");
                 }
                 if (password == "")
                 {

@@ -11,11 +11,7 @@ namespace VideoClub
     class Menu
     {
         SqlConnection conexion = Conexion.GetConnection();
-        SqlDataReader match;
-        static string cadena;
-        static SqlCommand comando;
         private string nombre, nickUser, email,password;
-        private int edad;
         private DateTime fechaNacimiento;
         public Menu()
         {
@@ -23,7 +19,7 @@ namespace VideoClub
         }
         public void Bienvenida()
         {
-            Console.WriteLine("\n\n\t\t\t\t\tBienvenido al VideoClub \n");//TODO:Buscar un nombre para poner
+            Console.WriteLine("\n\n\t\t\t\t\tBienvenido al VideoClub \n");
         }
         public void MenuOption()
         {
@@ -77,7 +73,7 @@ namespace VideoClub
         public void LogIn()
         {
             Clientes c1 = new Clientes();//Para resetear el cliente c1 si entraran despues de registrar cliente
-            Console.WriteLine("\n\tHa elegido la opción LogIn\n----------------------------\n\tIntroduzca el nombre de usuario");//TODO:poner que tambien puedan loguearse con el email     
+            Console.WriteLine("\n\tHa elegido la opción LogIn\n----------------------------\n\tIntroduzca el nick de usuario");//TODO:poner que tambien puedan loguearse con el email     
             c1=c1.Loguearse();
             if (c1 == null)
             {
@@ -103,7 +99,7 @@ namespace VideoClub
                     eleccion = -1;
                     Console.WriteLine("   Por favor, introduzca un valor válido\n-----------------------");
                 }
-            } while (eleccion < 1 || eleccion > 4);
+            } while (eleccion < 1 || eleccion > 5);
             switch (eleccion)
             {
                 case 1:
@@ -126,7 +122,6 @@ namespace VideoClub
         public void MisAlquileres(Clientes c1)
         {
             new Alquileres().AlquileresUsuario(c1);
-
             MenuLogin(c1);
         }
         public void LogOut()

@@ -15,7 +15,7 @@ namespace VideoClub
         static string cadena;
         static SqlCommand comando;
         private Clientes c1;
-        private int edad, selecPelicula;
+        private int edad;
 
         public Peliculas()
         {

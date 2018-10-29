@@ -56,17 +56,21 @@ namespace VideoClub
                     comando = new SqlCommand(cadena, conexion);
                     comando.ExecuteNonQuery();
                     conexion.Close();
-                    Console.WriteLine("\n\tPelícula alquilada con éxito");
+                    System.Console.ForegroundColor = ConsoleColor.Blue;
+                    Console.WriteLine("\n\tPelícula alquilada con éxito\n");
+                    System.Console.ForegroundColor = ConsoleColor.White;
                 }
                 else if(estadoPelicula[0].ToString() == "o")
                 {
                     Console.WriteLine("\n\tEsa película esta actualmente alquilada, se procede a volver al MenuLogin\n----------------------");
+                    conexion.Close();
                     return;
                 }
             }catch/*(buscar la excepcion en concreto y ponerla aqui)*/
             {
                 Console.WriteLine("\n\tNo se encuentra ninguna película que corresponda a su elección, se procede a volver al MenuLogin\n----------------");
             }
+            conexion.Close();
         }
         public void AlquileresUsuario(Clientes c1)
         {
@@ -75,11 +79,18 @@ namespace VideoClub
             comando = new SqlCommand(cadena, conexion);
             SqlDataReader alquiladas;
             alquiladas = comando.ExecuteReader();
+            if (!alquiladas.Read())
+            {
+                Console.WriteLine("\n\tEn estos momentos no tiene ninguna película alquilada, se procede a volver al menú LogIn\n----------------");
+                conexion.Close();
+                return;
+            }
+            alquiladas.Close();//Hay que cerrar y volver a abrir el lector porque si no se saltaría una lectura al comprobar si no hay ninguna pelicula alquilada
+            alquiladas = comando.ExecuteReader();
             while (alquiladas.Read())
             {
             Console.WriteLine("\n\tA continuacion se mostraran las id de sus películas alquiladas, si la fecha ha sido excedida apareceran en rojo");
                 peliculaId = Int32.Parse(alquiladas["IdPelicula"].ToString());
-                cont++;
                 int dayAlq = (DateTime.Now-DateTime.Parse(alquiladas["FinAlquiler"].ToString())).Days;
                 if (dayAlq <=0)
                 {
@@ -93,11 +104,6 @@ namespace VideoClub
                     Console.WriteLine("\n\tId Película:" + alquiladas["IDPelicula"].ToString() + "\n\tInicio Alquiler:"  + alquiladas["InicioAlquiler"].ToString() + "\n\tFin Alquiler:" + alquiladas["FinAlquiler"].ToString());
                     System.Console.ForegroundColor = ConsoleColor.White;
                 }
-            }
-            if (!alquiladas.Read())
-            {
-                Console.WriteLine("\n\tEn estos momentos no tiene ninguna película alquilada, se procede a volver al menú LogIn\n----------------");
-                return;
             }
             alquiladas.Close();
             conexion.Close();
@@ -114,7 +120,7 @@ namespace VideoClub
                 {
                     return;
                 }
-            } while (respuesta != "MENU");//TODO:bucle infinito
+            } while (respuesta != "MENU");
             return;
         }
         public void DevolverPelicula(Clientes c1)
@@ -152,6 +158,7 @@ namespace VideoClub
                 conexion.Close();
                 Console.WriteLine("\n\tNo se encuentra ninguna película que corresponda a su elección, se procede a volver al MenuLogin\n----------------");
             }
+            conexion.Close();
         }
     }
 }
