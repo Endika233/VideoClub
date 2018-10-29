@@ -13,7 +13,7 @@ namespace VideoClub
         SqlConnection conexion = Conexion.GetConnection();
         static string cadena,respuesta;
         static SqlCommand comando;
-        private int elecPelicula,newCod,peliculaId,cont=0;
+        private int elecPelicula,newCod,peliculaId;
         public Alquileres()
         {
 

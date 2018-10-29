@@ -51,6 +51,7 @@ namespace VideoClub
                     break;
                 case 3:
                     new Peliculas().MostrarPeliculasLogout();
+                    MenuOption();
                     break;
             }
         }
