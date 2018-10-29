@@ -17,7 +17,6 @@ namespace VideoClub
         private string nombre, nickUser, email,password;
         private int edad;
         private DateTime fechaNacimiento;
-        private bool loged;
         public Menu()
         {
             
@@ -55,6 +54,7 @@ namespace VideoClub
                     LogIn();
                     break;
                 case 3:
+                    new Peliculas().MostrarPeliculasLogout();
                     break;
             }
         }
@@ -77,23 +77,23 @@ namespace VideoClub
         public void LogIn()
         {
             Clientes c1 = new Clientes();//Para resetear el cliente c1 si entraran despues de registrar cliente
-            Console.WriteLine("\n\tHa elegido la opción LogIn\n----------------------------\n\tIntroduzca el nombre de usuario");//TODO:poner que tambien puedan loguearse con el email
-            loged=c1.Loguearse();
-            if (loged == true)
-            {
-                MenuLogin();
-            }
-            else
+            Console.WriteLine("\n\tHa elegido la opción LogIn\n----------------------------\n\tIntroduzca el nombre de usuario");//TODO:poner que tambien puedan loguearse con el email     
+            c1=c1.Loguearse();
+            if (c1 == null)
             {
                 MenuOption();
             }
+            else
+            {
+                MenuLogin(c1);
+            }
         }
-        public void MenuLogin()
+        public void MenuLogin(Clientes c1)
         {
             int eleccion;
             do
             {
-                Console.WriteLine("\tElija una de las siguientes acciones:\n\t1.Ver Películas(solo aparecerán aquellas adecuadas para su edad)\n\t2.Alquilar Películas\n\t3.Mis Alquileres\n\t4.LogOut y salir del programa");
+                Console.WriteLine("\tElija una de las siguientes acciones:\n\t1.Ver Películas(solo aparecerán aquellas adecuadas para su edad)\n\t2.Alquilar Películas\n\t3.Mis Alquileres\n\t4.LogOut y volver al menú principal\n\t5.LogOut y salir del programa");
                 try
                 {
                     eleccion = Int32.Parse(Console.ReadLine());
@@ -107,31 +107,45 @@ namespace VideoClub
             switch (eleccion)
             {
                 case 1:
-                    VerPeliculas();
+                    VerPeliculas(c1);
                     break;
                 case 2:
+                    AlquilarPelicula(c1);
                     break;
                 case 3:
-                    LogOut();
+                    MisAlquileres(c1);
                     break;
                 case 4:
-                    loged = false;//No es necesario porque se cierra el programa y resetean los valores pero si el día de mañana este programa se acoplara a otro y en realidad nunca dejara de ejecutarse habria que hacerlo
+                    LogOut();
+                    break;
+                case 5:                   
                     Salir();
                     break;
             }
+        }
+        public void MisAlquileres(Clientes c1)
+        {
+            new Alquileres().AlquileresUsuario(c1);
+
+            MenuLogin(c1);
         }
         public void LogOut()
         {
             MenuOption();
         }
-        public void VerPeliculas()//Enseñar peliculas dependiendo de la edad incluso si estan alquiladas
+        public void VerPeliculas(Clientes c1)
         {
             Peliculas peliculas = new Peliculas();
-            
+            peliculas.MostrarPeliculas(c1);
+            MenuLogin(c1);
         }
-        public void AlquilarPelicula()
+        public void AlquilarPelicula(Clientes c1)
         {
-
+            Peliculas peliculas=new Peliculas();
+            Alquileres alquileres = new Alquileres();
+            peliculas.MostrarPeliculasDisponibles(c1);
+            alquileres.AlquilarPelicula(c1);           
+            MenuLogin(c1);
         }
         public void Salir()
         {

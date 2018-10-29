@@ -17,6 +17,7 @@ namespace VideoClub
         private String nickUser = null,nombre=null,email=null,password=null;
         private int añoNacimiento, mesNacimiento, diaNacimiento,edad=0;//La edad solo se cambiara una vez se logueen
         private DateTime fechaNacimiento;
+        private Clientes c1;
         //TODO:meter la fecha de registro
         public Clientes()
         {
@@ -69,18 +70,14 @@ namespace VideoClub
             } while (nickUser == null||nickUser=="");//TODO: en nick email y demas si no meten ningun dado en la respuesta guarda"" no null
             return nickUser;
         }
-        public int GetEdad()
-        {
-            return edad;
-        }
-        public bool Loguearse()
+        public Clientes Loguearse()
         {
             do
             {
                 nickUser = Console.ReadLine();
                 if (nickUser.ToUpper() == "MENU")
                 {
-                    return false;
+                    return null;
                 }
                 conexion.Open();
                 cadena = "SELECT * FROM CLIENTES WHERE NICKUSER LIKE '" + nickUser + "'";
@@ -95,7 +92,8 @@ namespace VideoClub
                         password = Console.ReadLine();
                         if (password.ToUpper() == "MENU")
                         {
-                            return false;
+                            conexion.Close();
+                            return null;
                         }
                         cadena = "SELECT * FROM CLIENTES WHERE NICKUSER LIKE '" + nickUser + "' AND PASS='" + password + "'";
                         comando = new SqlCommand(cadena, conexion);
@@ -104,12 +102,16 @@ namespace VideoClub
                         {
                             Console.WriteLine("\n\tLa contraseña introducida es correcta\n");
                             match.Close();
-                            cadena = "  SELECT DATEDIFF (year,FechaNacimiento,GETDATE()) AS DIF FROM Clientes where NickUser like '"+nickUser+"'";
-                            comando= new SqlCommand(cadena, conexion);
-                            SqlDataReader edadRead = comando.ExecuteReader();
-                            edadRead.Read();
-                            edad = Int32.Parse(edadRead[0].ToString());
-                            return true;
+                            cadena = "SELECT * FROM CLIENTES WHERE NICKUSER='" + nickUser + "'";
+                            comando = new SqlCommand(cadena, conexion);
+                            SqlDataReader client = comando.ExecuteReader();
+                            while (client.Read())
+                            {
+                                 c1 = new Clientes(client["NickUser"].ToString(), client["Email"].ToString(), client["Nombre"].ToString(), DateTime.Parse((client["FechaNacimiento"]).ToString()), client["Pass"].ToString());
+                            }
+                            client.Close();                         
+                            conexion.Close();
+                            return c1;
                         }
                         else if(!match.Read())
                         {
@@ -126,7 +128,7 @@ namespace VideoClub
                 match.Close();
                 conexion.Close();
             } while (nickUser == null || nickUser == "");
-            return false;
+            return null;
         }
         public string RegistroNombre()
         {
@@ -265,6 +267,25 @@ namespace VideoClub
                 }
             } while (password == null || password == "");
             return password;
+        }
+        public int GetEdad(Clientes c1)
+        {
+            conexion.Open();
+            cadena = "SELECT DATEDIFF (year,FechaNacimiento,GETDATE()) FROM Clientes where NickUser like '" + nickUser + "'";
+            comando = new SqlCommand(cadena, conexion);
+            SqlDataReader edadRead = comando.ExecuteReader();
+            edadRead.Read();
+            edad = Int32.Parse(edadRead[0].ToString());
+            conexion.Close();
+            return edad;
+        }
+        public int GetEdad()
+        {
+            return edad;
+        }
+        public string GetNickUser()
+        {
+            return this.nickUser;
         }
     }
 }

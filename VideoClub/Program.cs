@@ -16,7 +16,7 @@ namespace VideoClub
 
         static void Main(string[] args)
         {
-
+            System.Console.ForegroundColor = ConsoleColor.White;
             Menu menu = new Menu();
             menu.Bienvenida();
             menu.MenuOption();
